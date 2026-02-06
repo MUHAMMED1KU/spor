@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>حاسبة السعرات والتحفيز</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #f4f4f4;
+    direction: rtl;
+    text-align: center;
+}
+.box {
+    background: white;
+    width: 360px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+input, select, button {
+    width: 100%;
+    padding: 8px;
+    margin: 6px 0;
+}
+button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.whatsapp {
+    background: #25D366;
+    margin-top: 10px;
+}
+.credit {
+    font-size: 13px;
+    color: #777;
+    margin-bottom: 10px;
+}
+.footer {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<div class="credit">✨ تم التصميم بواسطة <b>محمد</b></div>
+
+<h2>🔥 حاسبة السعرات والتحفيز</h2>
+
+<label>الوزن (كغ)</label>
+<input type="number" id="weight">
+
+<label>الطول (سم)</label>
+<input type="number" id="height">
+
+<label>العمر</label>
+<input type="number" id="age">
+
+<label>الجنس</label>
+<select id="gender">
+    <option value="male">ذكر</option>
+    <option value="female">أنثى</option>
+</select>
+
+<label>مستوى النشاط</label>
+<select id="activity">
+    <option value="1.2">قليل</option>
+    <option value="1.375">خفيف</option>
+    <option value="1.55">متوسط</option>
+    <option value="1.725">عالي</option>
+    <option value="1.9">عالي جدًا</option>
+</select>
+
+<button onclick="calculate()">احسب</button>
+
+<h3 id="result"></h3>
+
+<button class="whatsapp" onclick="shareWhatsApp()">📤 مشاركة على واتساب</button>
+
+<div class="credit">✨ تم التصميم بواسطة <b>محمد كويس</b></div>
+
+</div>
+
+<script>
+let shareText = "";
+
+function calculate() {
+    let w = weight.value;
+    let h = height.value;
+    let a = age.value;
+    let g = gender.value;
+    let act = activity.value;
+
+    let bmr = (g === "male")
+        ? (10*w + 6.25*h - 5*a + 5)
+        : (10*w + 6.25*h - 5*a - 161);
+
+    let calories = bmr * act;
+    let cut = calories - 500;
+    let bulk = calories + 300;
+
+    let message = "";
+    if (calories < 2000)
+        message = "🔥 جسمك مناسب، شدّ شوي وبتولّع!";
+    else if (calories < 2600)
+        message = "💪 وضعك ممتاز، كمّل هيك!";
+    else
+        message = "🚀 طاقتك عالية، استثمرها صح!";
+
+    shareText =
+        "🔥 حاسبة السعرات (تصميم محمد)\n\n" +
+        "BMR: " + Math.round(bmr) + "\n" +
+        "تثبيت: " + Math.round(calories) + "\n" +
+        "تنشيف: " + Math.round(cut) + "\n" +
+        "تضخيم: " + Math.round(bulk) + "\n\n" +
+        message;
+
+    result.innerHTML =
+        "🔥 BMR: " + Math.round(bmr) + "<br>" +
+        "⚖️ تثبيت: " + Math.round(calories) + "<br>" +
+        "⬇️ تنشيف: " + Math.round(cut) + "<br>" +
+        "⬆️ تضخيم: " + Math.round(bulk) + "<br><br>" +
+        message;
+}
+
+function shareWhatsApp() {
+    if (shareText === "") {
+        alert("احسب النتيجة أولاً");
+        return;
+    }
+    let url = "https://wa.me/?text=" + encodeURIComponent(shareText);
+    window.open(url, "_blank");
+}
+</script>
+
+</body>
+</html>
